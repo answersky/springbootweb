@@ -29,15 +29,21 @@ public class LoginController {
         return "login";
     }
 
+    @RequestMapping("/msg")
+    public String message(){
+        return "message";
+    }
+
     @RequestMapping("/validate")
-    public String login(Model model, String username, String password) {
+    public String validate(Model model, String username, String password) {
         Gson gson=new Gson();
         ResponseResult responseResult = new ResponseResult();
         User user = userService.findUserByName(username);
         if (user == null) {
             responseResult.setMessage("用户不存在");
             responseResult.setStatus("400");
-            return gson.toJson(responseResult);
+            model.addAttribute("msg",gson.toJson(responseResult));
+            return "message";
         }
 
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -64,6 +70,7 @@ public class LoginController {
             responseResult.setMessage("系统异常");
             responseResult.setStatus("400");
         }
-        return gson.toJson(responseResult);
+        model.addAttribute("msg",gson.toJson(responseResult));
+        return "message";
     }
 }
