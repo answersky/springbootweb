@@ -1,5 +1,6 @@
 package com.answer.controller;
 
+import com.answer.model.User;
 import com.answer.service.interfaces.IUserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,14 +13,16 @@ import javax.annotation.Resource;
  * 2019/6/28
  */
 @Controller
+@RequestMapping("/shiro")
 public class IndexController {
     @Resource
     private IUserService userService;
 
     @RequestMapping("/hello")
     public String index(Model model){
-        String name=userService.findUserByName("liufeng");
-        model.addAttribute("name","hello word "+name);
+        User user=userService.findUserByName("liufeng");
+        model.addAttribute("name","hello word "+user.getUsername());
         return "hello";
     }
+
 }
